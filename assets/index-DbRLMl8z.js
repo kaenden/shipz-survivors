@@ -176,15 +176,17 @@
   #hud .arrow.on { display: block; }
   #hud .arrow svg { width: 36px; height: 36px; filter: drop-shadow(0 2px 2px #000a); }
   #hud .arrow span { position: absolute; left: 50%; top: 36px; transform: translateX(-50%); font: 700 12px var(--f-body); color: #dffcf8; text-shadow: 0 1px 2px #000, 0 0 2px #000; white-space: nowrap; }
-  /* Keşif Denizi: the nearest places off the screen, at its edge (a "?" till seen); a place's name as it's found. */
+  /* Keşif Denizi: the nearest places off the screen, at its edge (a "?" till seen); a place's name as it's found. The
+     mark's ring orange (2026-10-22, the user: turquoise sat too close to the sea's blue to see), the task's arrow turquoise. */
   #hud .mark { position: absolute; left: 0; top: 0; width: 34px; height: 34px; margin: -17px 0 0 -17px; display: none; will-change: transform; }
   #hud .mark.on { display: block; }
-  #hud .mark .disc { position: absolute; inset: 0; border-radius: 50%; background: rgb(var(--ink-rgb) / .85); border: 2.5px solid #7ff0e0;
-    display: grid; place-items: center; box-shadow: 0 2px 4px #000a; }
+  #hud .mark .disc { position: absolute; inset: 0; border-radius: 50%; background: rgb(var(--ink-rgb) / .88); border: 3px solid #ffa630;
+    display: grid; place-items: center; box-shadow: 0 2px 4px #000a, 0 0 9px #ffa630aa; }
   #hud .mark svg { width: 26px; height: 26px; }
-  #hud .mark b { font: 400 19px var(--f-display); color: #7ff0e0; line-height: 1; }
+  #hud .mark b { font: 400 19px var(--f-display); color: #ffc560; line-height: 1; }
   #hud .mark .point { position: absolute; inset: 0; }
-  #hud .mark .point::after { content: ""; position: absolute; left: calc(100% + 1px); top: 50%; margin-top: -6px; border: 6px solid transparent; border-left: 8px solid #7ff0e0; }
+  #hud .mark .point::after { content: ""; position: absolute; left: calc(100% + 1px); top: 50%; margin-top: -6px; border: 6px solid transparent; border-left: 8px solid #ffa630;
+    filter: drop-shadow(0 0 3px #ffa630aa); }
   #hud .found { position: absolute; left: 50%; top: calc(248px + env(safe-area-inset-top)); transform: translateX(-50%); display: grid; justify-items: center; gap: 2px;
     width: max-content; max-width: calc(100vw - 32px); text-align: center; opacity: 0; pointer-events: none; }
   #hud .found b { font: 400 clamp(20px, 7vw, 30px) var(--f-display); letter-spacing: .04em; line-height: 1.1; color: var(--brass-hi); text-shadow: 0 3px 0 #1d1626cc, 0 0 6px #1d1626aa; }
