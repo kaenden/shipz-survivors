@@ -198,8 +198,11 @@
   @keyframes cards-in { from { opacity: 0; } }
   #cards h2 { margin: 0; font: 400 32px var(--f-display); color: var(--brass-hi); letter-spacing: .04em; text-shadow: 0 3px 0 #00000088; }
   #cards .sub { margin: -8px 0 4px; color: var(--mist); font-size: 15px; }
-  #cards .list { display: flex; flex-direction: column; gap: 12px; width: min(360px, 100%); }
-  #cards .card { position: relative; display: grid; grid-template-columns: 62px 1fr; gap: 4px 12px; align-items: center; padding: 12px 14px; text-align: left;
+  /* Every card the same size (2026-10-22, the user: in the chest each was as wide as its own words — uneasy to look at):
+     one column, every row as tall as the tallest; a chest's gift fills its row. */
+  #cards .list { display: grid; grid-auto-rows: 1fr; gap: 12px; width: min(360px, 100%); }
+  #cards .list > .gift { display: grid; }
+  #cards .card { position: relative; display: grid; grid-template-columns: 62px 1fr; gap: 4px 12px; align-items: center; align-content: center; padding: 12px 14px; text-align: left;
     border: 3px solid #8a6a3a; border-radius: 12px; background: var(--paper); color: var(--ink); cursor: pointer; font: inherit;
     box-shadow: 0 6px 0 #6b5230, 0 10px 18px #040c1866; animation: card-in .25s ease-out backwards; }
   #cards .card:nth-child(2) { animation-delay: .05s; } #cards .card:nth-child(3) { animation-delay: .1s; }
@@ -216,13 +219,24 @@
   /* An evolution in the chest: a slow reveal, growing in with a gold glow (the Phase 2 page's moment of slow motion). */
   #cards .gift .card.evo { animation: evo-reveal 1.6s cubic-bezier(.2, 1.3, .4, 1) both, evo-glow 1.8s ease-in-out 1.6s infinite; }
   @keyframes evo-reveal { 0% { transform: scale(.55); opacity: 0; filter: brightness(2.2); } 60% { transform: scale(1.06); opacity: 1; filter: brightness(1.4); } 100% { transform: scale(1); filter: none; } }
-  @keyframes evo-glow { 50% { box-shadow: 0 0 0 2px #ffc94a, 0 0 34px #ffc94acc; } }
-  @media (prefers-reduced-motion: reduce) { #cards .gift .card.evo { animation: none; } }
+  @keyframes evo-glow { 50% { box-shadow: 0 0 0 3px #ffd54a, 0 0 46px 12px #ff9a2ecc, 0 6px 0 #8a3b06; } }
+  /* …and a glint sweeping across it now and then. */
+  #cards .card.evo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(105deg, transparent 40%, #ffffff66 50%, transparent 60%) no-repeat; background-size: 260% 100%;
+    background-position: 160% 0; animation: evo-shine 2.8s ease-in-out 1.6s infinite; }
+  @keyframes evo-shine { 0%, 45% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+  @media (prefers-reduced-motion: reduce) { #cards .gift .card.evo, #cards .card.evo::after { animation: none; } }
   #cards .tag { position: absolute; right: 10px; top: -11px; padding: 2px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
   #cards .tag.new { background: var(--red); color: #fff; }
   #cards .tag.max { background: #ffd56b; color: var(--ink); }
-  #cards .card.evo { border-color: #ffc94a; background: linear-gradient(160deg, #fff6d8, #ffe6a0); box-shadow: 0 0 0 2px #ffc94a, 0 0 22px #ffc94a88; }
-  #cards .tag.evo { background: linear-gradient(90deg, #ffd56b, #ffb02e); color: var(--ink); }
+  /* An evolution: the strongest a card gets (2026-10-22, the user: its pale gold was weak) — deep gold running into
+     orange, an orange ring and a wide glow, its tag orange-red. */
+  #cards .card.evo { border-color: #fff1b8; background: linear-gradient(160deg, #ffe78f 0%, #ffc547 48%, #ff9a2e 100%); color: #2a1606;
+    box-shadow: 0 0 0 3px #ff7a1a, 0 0 28px 6px #ffb02ecc, 0 6px 0 #8a3b06; }
+  #cards .card.evo .lvl { color: #6b3208; }
+  #cards .card.evo .pic { background: #1a1206; box-shadow: inset 0 0 0 3px #ff7a1a, 0 0 14px #fff3b0; }
+  #cards .tag.evo { background: linear-gradient(90deg, #ff6a00, #d92b1c); color: #fff; font-size: 13px; padding: 3px 12px;
+    box-shadow: 0 0 12px #ff6a00b0; text-shadow: 0 1px 0 #00000055; z-index: 1; }
   #cards .tag.mastery { background: #2f8f86; color: #fff; }
   /* A crew card that's a partner of a gun you hold (EVOLUTIONS): a gold edge and tag, so no one misses the pairs. */
   #cards .card.partner { border-color: #ffc94a; box-shadow: 0 0 0 2px #ffc94a, 0 0 14px #ffc94a66, 0 6px 0 #6b5230; }
@@ -239,8 +253,8 @@
   @media (orientation: landscape) and (max-height: 560px) {
     #cards { gap: 8px; }
     #cards h2 { font-size: 24px; }
-    #cards .list { flex-direction: row; width: min(760px, 100%); }
-    #cards .card { flex: 1; grid-template-columns: 48px 1fr; padding: 10px; }
+    #cards .list { grid-auto-flow: column; grid-auto-columns: 1fr; grid-auto-rows: auto; width: min(760px, 100%); }
+    #cards .card { grid-template-columns: 48px 1fr; padding: 10px; }
     #cards .pic { width: 48px; height: 48px; } #cards .pic svg { width: 32px; height: 32px; }
     #cards .name { font-size: 16px; } #cards .text { font-size: 13px; }
     #cards .chest-art { width: 80px; height: 80px; }
